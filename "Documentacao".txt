@@ -1,0 +1,12 @@
+Funções:
+Cadastro de produtos;
+Remoção de produtos;
+Edição de produtos;
+Consulta de produtos;
+Cadastro de funcionários;
+Verificação de funcionários;
+Ordenação de produtos;
+Cadastro de clientes;
+Comprovante de compra...
+
+OBS.: Podem haver outras funções que serão implementadas durante a construção do projeto.
