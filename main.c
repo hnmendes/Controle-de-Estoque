@@ -32,7 +32,19 @@ typedef struct Cliente Cliente;
 //----------------------------------------------------------------\\
 
 
+//Estrutura Homogênia de Produto
 
+
+
+struct Produto{
+    int id;
+    char nome[100];
+    char tipo[100];
+    double preco;
+    //TODO
+}
+
+//-----------------------------------------------------------------\\
 
 
 
