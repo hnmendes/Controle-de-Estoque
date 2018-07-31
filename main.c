@@ -42,8 +42,8 @@ struct Produto{
 
     char nome[100];
     char tipo[100];
-    char codBarra[13];
     double preco;
+    int quantidade;
     int diaFabricacao;
     int mesFabricacao;
     int anoFabricacao;
@@ -53,9 +53,8 @@ struct Produto{
 
 typedef struct Produto Produto;
 
-//-----------------------------------------------------------------\\
 
-Admin adm[2];
+//-----------------------------------------------------------------\\
 
 
 
@@ -91,4 +90,3 @@ void loginAdmin(Admin *adm){
 }
 
 
-void cadastro
