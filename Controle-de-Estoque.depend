@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1533231558 source:/home/rique/Documents/C/Controle-de-Estoque/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<locale.h>
+
