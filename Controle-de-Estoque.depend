@@ -1,8 +1,21 @@
 # depslib dependency file v1.0
-1533231558 source:/home/rique/Documents/C/Controle-de-Estoque/main.c
+1533502808 source:/home/rique/Documents/C/Controle-de-Estoque/main.c
+	"produto.h"
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
-	<time.h>
 	<locale.h>
+
+1533502926 /home/rique/Documents/C/Controle-de-Estoque/produto.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+
+1533501853 source:/home/rique/Documents/C/Controle-de-Estoque/Produto.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	"produto.h"
 

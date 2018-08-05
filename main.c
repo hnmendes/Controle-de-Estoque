@@ -1,90 +1,96 @@
+#include "produto.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <locale.h>
 
-#define AdmQtd 2
+#define ADMMAX 2
+//#define PRODUTMAX 1000
 
 
-//Estrutura homogênia do admin.
+//Estrutura de admin.
 
-struct Admin{
+typedef struct Admin{
 
     char usuario[10];
     char senha[10];
 
-};
+}Admin;
 
-typedef struct Admin Admin;
+//Variáveis Globais do administrador.
 
 
-//Estrutura homogênia do cliente.
+Admin adms[ADMMAX];     //Vetor de administradores.
+int admCadastroQtd = 0; //Checagem de quantos administradores têm cadastrados.
 
-struct Cliente{
+
+//Estrutura de cliente.
+
+typedef struct{
 
     char nome[100];
     char email[100];
     char senha[50];
     char empresa[100];
 
-};
-
-typedef struct Cliente Cliente;
+}Cliente;
 
 
-//Estrutura Homogênia de Produto
+//Estrutura de produto
 
-
-struct Produto{
-
-    int id;
-    char nome[100];
-    char tipo[100];
-    double preco;
-    int quantidade;
-    int diaFabricacao;
-    int mesFabricacao;
-    int anoFabricacao;
-
-
-};
-
-typedef struct Produto Produto;
 
 
 //------------------------------FUNÇÕES E PROCEDIMENTOS-----------------------------------\\
 
-
-Admin adms[2];
-
-
 int main(){
 
-    menuAdmin("Henrique");
+    addProduto();
+    imprimirProdutos();
 
 
     return 0;
 }
 
-
 //------PARTE DE FUNÇÕES E PROCEDIMENTOS DO ADMINISTRADOR------------\\
 
+void cadastroAdmin(){
 
-
-void cadastroAdmin(Admin *adm){
+    Admin adm;
 
     system("clear");
-    printf("----------------CADASTRO--------------------");
+    printf("\n\n----------------CADASTRO--------------------");
 
-    printf("\n\nDigite o login do admin:\n\n");
-    scanf("%s",&adm->usuario);
+    if(admCadastroQtd == 2){
 
-    printf("\n\nDigite a senha do admin:\n\n");
-    scanf("%s",&adm->senha);
+        fflush(stdin);
+        printf("\n\nO limite de cadastro de administradores foi excedido.");
+        getchar();
+        getchar();
 
-    printf("\n");
-    printf("--------------------------------------------");
+    }else{
+
+        printf("\n\nDigite o login do admin:\n\n");
+        scanf("%s",&adm.usuario);
+
+        while(checaCadastroAdmin(adm.usuario) == 1){
+            printf("\n\nO nome de usuário já existe, por favor digite outro:\n\n");
+            scanf("%s",&adm.usuario);
+        }
+
+        printf("\n\nDigite a senha do admin:\n\n");
+        scanf("%s",&adm.senha);
+
+        adms[admCadastroQtd] = adm;
+
+        admCadastroQtd++;
+
+        printf("\n\nAdministrador cadastrado com sucesso.");
+
+        system("read");
+    }
+
+
+    printf("\n\n\n");
 }
 
 
@@ -120,16 +126,26 @@ void loginAdmin(){
     }
 }
 
-//int checaCadastroAdmin();
+int checaCadastroAdmin(char usuario[10]){
+
+    int i;
+
+    for(i = 0; i < ADMMAX; i++){
+        if(strcmp(usuario,adms[i].usuario) == 0){
+            return 1;
+        }
+    }
+
+    return 0;
 
     //Falta implementar pra checar se o usuario já existe no array.
-//
+}
 
 int checaLoginAdmin(char login[10], char senha[10]){
 
     int i = 0;
 
-    for(i = 0; i < AdmQtd; i++){
+    for(i = 0; i < ADMMAX; i++){
 
         if(strcmp(adms[i].usuario, login) == 0 && strcmp(adms[i].senha,senha) == 0){ //Checa se existe dentro do array o login e a senha digitados pelo usuario.
 
@@ -150,8 +166,6 @@ void menuAdmin(char login[10]){
 
     printf("\n\n");
 
-    printf("Logado com sucesso.");
-
     getchar();
 
     system("clear");
@@ -169,6 +183,7 @@ void menuAdmin(char login[10]){
     printf("'   Digite 2 para editar a quantidade de um produto em estoque   '\n");
     printf("'   Digite 3 para editar atributos de um produto em estoque      '\n");
     printf("'   Digite 4 para remover um produto em estoque                  '\n");
+    printf("'   Digite 5 para adicionar uma nova conta de admin              '\n");
     printf("'                                                                '\n");
     printf("'   Digite 0 para sair do menu adm                               '\n");
     printf("'                                                                '\n");
@@ -181,7 +196,7 @@ void menuAdmin(char login[10]){
      switch(op){
 
         case 1:
-            //addProduto();
+            addProduto();
             break;
 
         case 2:
@@ -196,7 +211,12 @@ void menuAdmin(char login[10]){
             //delProduto();
             break;
 
-        case 0:
+        case 5:
+            cadastroAdmin();
+            menuAdmin(login);
+            break;
+
+        default:
             //menuPadrao();
             break;
      }
@@ -208,7 +228,7 @@ void menuAdmin(char login[10]){
 //----------PARTE DE FUNÇÕES E PROCEDIMENTOS DO PRODUTO--------------\\
 
 
-//addProduto(Produto *estoque);
+
     //Aqui sera o procedimento de adcionar o produto.
     //Validar se o produto já existe pelo ID, caso exista, impedir de adcionar
     //Ao adcionar um produto, ao final, perguntar se quer adcionar mais
