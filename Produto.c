@@ -25,7 +25,7 @@ void addProduto(){
 
     Produto produto;
 
-    system("clear");
+    system("cls");
 
     printf("--------------CADASTRO DE PRODUTO-------------------\n\n\n");
 
@@ -105,7 +105,7 @@ void imprimirProdutos(){
 
     int i = 0;
 
-    system("clear");
+    system("cls");
     printf("\n\n\n-----------Produtos-------------\n\n\n");
 
     for(i = 0; i < PRODUTMAX; i++){
@@ -138,13 +138,118 @@ void editProduto(){
         printf("\n\nDigite o id do produto que deseja editar:\n\n");
         scanf("%d",&id);
 
-        //editPorId(int id);  Procedimento que edite pelo ID.
+        while(checaIdProduto(id) != 1){
+            printf("\n\nProduto não encontrado. Por favor, digite um id válido.");
+            scanf("%d",&id);
+        }
+
+        editPorId(id);
+
     }else if(op == 2){
         printf("\n\nDigite o nome do produto que deseja editar:\n\n");
         fgets(nome,100,stdin);
 
-        //editPorNome(char nome[100]); Procedimento que edite pelo Nome.
+        while(checaNomeProduto(nome)!= 1){
+            printf("\n\nProduto não encontrado. Por favor, digite um id válido.");
+            fgets(nome,100,stdin);
+        }
+
+        editPorNome(nome);
+
     }
 
+
+}
+
+void editPorId(int id){
+
+    int i = 0;
+
+    for(i = 0; i < PRODUTMAX; i++){
+
+        if(produtos[i].id == id){
+            printf("\n\nProduto encontrado.\n\n");
+
+            printf("\nDigite o nome do produto: \n\n");
+            fgets(produtos[i].nome,100,stdin);
+
+            while(checaNomeProduto(produtos[i].nome) == 1){
+                printf("\nNome de produto já cadastrado, por favor insira outro:\n\n");
+                fgets(produtos[i].nome,100,stdin);
+            }
+
+            printf("\nDigite o tipo do produto: \n\n");
+            fgets(produtos[i].tipo,100,stdin);
+
+            printf("\nDigite o preço do produto: \n\n");
+            scanf("%lf",&produtos[i].preco);
+
+            printf("\nDigite a quantidade do produto: \n\n");
+            scanf("%d",&produtos[i].quantidade);
+
+            printf("\nDigite o mês de validade do produto: \n\n");
+            scanf("%d",&produtos[i].mesValidade);
+
+            printf("\nDigite o ano de validade do produto: \n\n");
+            scanf("%d",&produtos[i].anoValidade);
+
+            printf("\n\nProduto editado com sucesso.\n\n");
+        }
+    }
+
+}
+
+void editPorNome(char nome[100]){
+
+    int i = 0;
+
+
+    for(i = 0; i < PRODUTMAX; i++){
+        if(strcmp(produtos[i].nome,nome) == 0){
+            printf("\n\nProduto encontrado.\n\n");
+
+            printf("\nDigite o nome do produto: \n\n");
+            fgets(produtos[i].nome,100,stdin);
+
+            while(checaNomeProduto(produtos[i].nome) == 1){
+                printf("\nNome de produto já cadastrado, por favor insira outro:\n\n");
+                fgets(produtos[i].nome,100,stdin);
+            }
+
+            printf("\nDigite o tipo do produto: \n\n");
+            fgets(produtos[i].tipo,100,stdin);
+
+            printf("\nDigite o preço do produto: \n\n");
+            scanf("%lf",&produtos[i].preco);
+
+            printf("\nDigite a quantidade do produto: \n\n");
+            scanf("%d",&produtos[i].quantidade);
+
+            printf("\nDigite o mês de validade do produto: \n\n");
+            scanf("%d",&produtos[i].mesValidade);
+
+            printf("\nDigite o ano de validade do produto: \n\n");
+            scanf("%d",&produtos[i].anoValidade);
+
+            printf("\n\nProduto editado com sucesso.\n\n");
+        }
+    }
+
+}
+
+void editQuantidade(int id){
+
+    int i = 0;
+
+    for(i = 0; i < PRODUTMAX; i++){
+        if(id == produtos[i].id){
+
+            printf("\n\nProduto encontrado.\n\n");
+
+            printf("\nDigite a quantidade do produto: \n\n");
+            scanf("%d",&produtos[i].quantidade);
+
+        }
+    }
 
 }
