@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <locale.h>
 
 
@@ -9,16 +10,16 @@
 #define PRODUTMAX 1000  //MAX produtos    //
 #define ADMMAX 2        //MAX de adms     //
 #define CLIENTEMAX 1000 //MAX de clientes //
-                                          //
+#define COMPRAMAX 100                     //
 //------------------------------------------
 
 
 //-----------------Estruturas---------------
                                           //
-typedef struct Admin{                     //
+typedef struct{                           //
                                           //
-    char usuario[10];                        //
-    char senha[10];                          //
+    char usuario[10];                     //
+    char senha[10];                       //
                                           //
 }Admin;                                   //
                                           //
@@ -35,6 +36,15 @@ typedef struct{                           //
                                           //
 }Produto;                                 //
                                           //
+
+typedef struct{
+
+    int idProduto;
+    int quantidadeProduto;
+    float precoTotal;
+
+}Compra;
+
                                           //
 typedef struct{                           //
                                           //
@@ -42,11 +52,15 @@ typedef struct{                           //
     char email[100];                      //
     char senha[50];                       //
     char empresa[100];                    //
+    Compra compras[COMPRAMAX];            //
+    int quantCompras;                     //
     int ativo;                            //
                                           //
 }Cliente;                                 //
                                           //
 //-----------------------------------------
+
+
 
 
 //---------------Vetores-------------------
@@ -87,11 +101,26 @@ void imprimirProdutos();                             //
 void editProduto();
 void editQtdProduto();                               //
                                                      //
+//Cliente
+
+int checarEmail(char email[100]);
+void cadastroCliente();
+void imprimirClientes();
+void compraProduto(char email[100]);
+Cliente * clienteByEmail(char email[100]);
+void loginCliente();
+int comprarProdutoById(int id,int quantidade,Cliente* cli);
+void impressaoTeste(char email[100]);
+char* getNomeProdutoById(int id);
+void criaArquivo(char *nomeArq, char email[100]);
+void lerArquivo();
+
+
 
 
 int main(){
 
-    adms[0]=(Admin){"teste","123"};
+    adms[0]=(Admin){"admin","123"};
 
     produtos[0] = (Produto){1,"produto1","bebida",12.80,128,1};
     produtos[1] = (Produto){2,"produto2","bebida",12.80,128,1};
@@ -127,6 +156,16 @@ int main(){
 
     produtoCadastradoQtd = 31;
 
+    //menuPadrao();
+
+    strcpy(clientes[0].nome,"henrique");
+    strcpy(clientes[0].email,"henrique");
+    strcpy(clientes[0].empresa,"henrique");
+    strcpy(clientes[0].senha,"henrique");
+    clientes[0].ativo = 1;
+
+    clienteCadastradoQtd++;
+
     menuPadrao();
 
     return 0;
@@ -160,11 +199,11 @@ void menuPadrao(){
             break;
 
         case 2:
-            //loginCliente();
+            loginCliente();
             break;
 
         case 3:
-            //cadastrarCliente();
+            cadastroCliente();
             break;
 
     }
@@ -214,7 +253,6 @@ void cadastroAdmin(){
     printf("\n\n\n");
 }
 
-
 void imprimirAdmins(Admin *adm){
 
     int i = 0;
@@ -225,7 +263,6 @@ void imprimirAdmins(Admin *adm){
     }
 
 }
-
 
 void loginAdmin(){
 
@@ -249,7 +286,10 @@ void loginAdmin(){
 
     }else{
 
-        printf("\n\n\nLogin ou senha incorretos, ou a conta de adm informada nao existe.");
+        printf("\n\n\nLogin ou senha incorretos, ou a conta de adm informada nao existe.\n\n");
+
+        getchar();
+        getchar();
 
         system("pause");
 
@@ -445,6 +485,20 @@ int checaNomeProduto(char nome[100]){
     return 0;
 }
 
+char* getNomeProdutoById(int id){
+
+    int i = 0;
+
+    for(i = 0; i < produtoCadastradoQtd; i++){
+        if(produtos[i].id == id){
+            return produtos[i].nome;
+        }
+    }
+
+    return NULL;
+
+}
+
 void imprimirProdutos(){
 
     int i = 0, cont = 0, pagina = 1;
@@ -463,7 +517,6 @@ void imprimirProdutos(){
             printf("Preco: %.2lf\n",produtos[i].preco);
             printf("Quantidade: %d\n",produtos[i].quantidade);
             printf("--------------------------------\n\n");
-            getchar();
             cont++;
 
             if(cont == 15){
@@ -477,8 +530,9 @@ void imprimirProdutos(){
 
         }
     }
-}
 
+    getchar();
+}
 
 void editProduto(){
 
@@ -516,7 +570,6 @@ void editProduto(){
 
 
 }
-
 
 void editPorId(int id){
 
@@ -586,8 +639,6 @@ void editPorNome(char nome[100]){
 
 }
 
-
-
 void editQtdProduto(){
 
     int id = 0, qtdProduto = 0, i = 0;
@@ -631,7 +682,6 @@ void editQtdProduto(){
     }
 
 }
-
 
 void removeProduto(){
 
@@ -744,4 +794,383 @@ int removeProdutoByNome(char nome[100]){
 //CLIENTE
 
 
+void cadastroCliente(){
 
+    Cliente cliente;
+
+    system("clear");
+
+    printf("\n\n---------CADASTRO DE CLIENTE---------\n\n");
+
+    printf("Digite o nome do cliente:\n\n");
+    fgets(cliente.nome,100,stdin);
+
+    printf("\n\nDigite o seu email:\n\n");
+    fgets(cliente.email,100,stdin);
+
+    printf("\n\nDigite o nome da empresa associada:\n\n");
+    fgets(cliente.empresa,100,stdin);
+
+    printf("\n\nDigite sua senha:\n\n");
+    fgets(cliente.senha,100,stdin);
+
+    cliente.ativo = 1;
+
+    cliente.quantCompras = 0;
+
+    clientes[clienteCadastradoQtd] = cliente;
+
+    clienteCadastradoQtd += 1;
+
+    printf("\n\nCliente cadastrado com sucesso!\n\n");
+    getchar();
+
+}
+
+
+void imprimirClientes(){
+
+    int i = 0;
+
+    system("clear");
+
+    printf("\n\nLista de Clientes cadastrados:\n\n\n\n");
+
+    for(i = 0; i < clienteCadastradoQtd; i++){
+
+        if(clientes[i].ativo == 1){
+
+            printf("Nome: %s\n\n",clientes[i].nome);
+            printf("Email: %s\n\n",clientes[i].email);
+            printf("Empresa: %s\n\n",clientes[i].empresa);
+            printf("Senha: %s\n\n",clientes[i].senha);
+            printf("---------------------------------\n\n\n");
+
+        }
+
+    }
+
+}
+
+
+int checarEmail(char email[100]){
+
+    int i = 0;
+
+    for(i = 0; i < CLIENTEMAX; i++){
+        if(strcmp(email,clientes[i].email) == 0){
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void loginCliente(){
+
+    char email[100],senha[100];
+
+    system("clear");
+    printf("-----------LOGIN------------");
+
+    printf("\n\nDigite o login do cliente:\n\n");
+    scanf("%s",&email);
+
+    printf("\n\nDigite a senha do cliente:\n\n");
+    scanf("%s",&senha);
+
+    printf("\n");
+    printf("-----------------------------");
+
+    if(checaLoginCliente(email,senha) == 1){
+
+        menuCliente(email);
+
+    }else{
+
+        printf("\n\n\nLogin ou senha incorretos, ou a conta de cliente informada nao existe.\n\n");
+
+        getchar();
+        getchar();
+
+        loginCliente();
+
+    }
+}
+
+
+int checaLoginCliente(char email[100], char senha[100]){
+
+    int i = 0;
+
+    for(i = 0; i < ADMMAX; i++){
+
+        if(strcmp(clientes[i].email, email) == 0 && strcmp(clientes[i].senha,senha) == 0){ //Checa se existe dentro do array o login e a senha digitados pelo usuario.
+
+            return 1; //Retorna 1 se foi encontrado
+
+        }
+    }
+
+    return 0;
+
+}
+
+
+void menuCliente(char email[100]){
+
+    int op = 0;
+
+    system("clear");
+
+    printf("\n\n");
+
+    getchar();
+
+    system("clear");
+
+    printf("\n\n\n");
+
+    printf("Bem vindo, %s",email);
+
+    printf("\n\n\n\n");
+
+
+    printf("'-------------------------[MENU CLIENTE]-------------------------'\n");
+    printf("'                                                                '\n");
+    printf("'   Digite [1] para comprar um produto                           '\n");
+    printf("'   Digite [2] para listar produtos em estoque                   '\n");
+    printf("'   Digite [3] para finalizar compra e gerar nota fiscal         '\n");
+    printf("'   Digite [4] para ver e imprimir a nota fiscal                 '\n");
+    printf("'                                                                '\n");
+    printf("'   Digite [0] para sair do menu cliente                         '\n");
+    printf("'                                                                '\n");
+    printf("'----------------------------------------------------------------'\n");
+
+     printf("\n\n\n\n");
+
+     scanf("%d",&op);
+
+     switch(op){
+
+        case 1:
+            imprimirProdutos();
+            compraProduto(email);
+            menuCliente(email);
+            break;
+
+        case 2:
+            imprimirProdutos();
+            menuCliente(email);
+            break;
+
+        case 3:
+            finalizarCompra(email);
+            menuCliente(email);
+            break;
+
+        case 4:
+            lerArquivo();
+            menuCliente(email);
+            break;
+
+        default:
+            system("clear");
+            menuPadrao();
+            break;
+     }
+
+
+}
+
+
+//CadastrarCliente();
+//LoginCliente();
+//VerListaDeProduto();
+//ComprarProdutoById();
+int comprarProdutoById(int id,int quantidade, Cliente* cli){
+
+    int i = 0;
+
+    for(i = 0; i < produtoCadastradoQtd; i++){
+
+        if(produtos[i].id == id){
+
+            produtos[i].quantidade -= quantidade;
+
+            cli->compras[cli->quantCompras].idProduto = id;
+
+            cli->compras[cli->quantCompras].quantidadeProduto = quantidade;
+
+            cli->compras[cli->quantCompras].precoTotal = quantidade * produtos[i].preco;
+
+            cli->quantCompras++;
+
+            return 1;
+        }
+    }
+
+    return 0;
+
+}
+
+
+Cliente * clienteByEmail(char email[100]){
+
+    Cliente cli;
+
+    int i = 0;
+
+    for(i = 0; i < clienteCadastradoQtd; i++){
+        if(strcmp(email,clientes[i].email) == 0){
+            return &clientes[i];
+        }
+    }
+
+    return NULL;
+
+}
+
+void compraProduto(char email[100]){
+
+    int id = 0,quantidade = 0, resposta = 0;
+
+    getchar();
+
+    printf("\n\nDigite o id do produto que deseja comprar:\n\n");
+    scanf("%d",&id);
+
+    printf("\n\nDigite a quantidade do produto que deseja comprar:\n\n");
+    scanf("%d",&quantidade);
+
+    resposta = comprarProdutoById(id,quantidade,clienteByEmail(email));
+
+    if(resposta == 1){
+        printf("\n\nProduto comprado com sucesso.\n\n");
+        getchar();
+    }else{
+        printf("\n\nOcorreu um erro, contate os administradores.\n\n");
+        getchar();
+    }
+
+    getchar();
+
+}
+
+void impressaoTeste(char email[100]){
+
+    int i = 0;
+    Cliente * c;
+
+    c = clienteByEmail(email);
+
+    for(i = 0; i < c->quantCompras; i++){
+
+        printf("\nId: %d\n",c->compras[i].idProduto);
+        printf("\n\nPreco total: %f\n",c->compras[i].precoTotal);
+        printf("\n\nQuantidade: %d\n\n\n\n",c->compras[i].quantidadeProduto);
+
+    }
+
+
+    getchar();
+    getchar();
+
+
+}
+
+void finalizarCompra(char email[100]){
+
+    int op = 0;
+
+    printf("\n\nDeseja realmente finalizar a conta e gerar a nota fiscal?(Digite 1 para sim, 0 para não)\n\n");
+    scanf("%d",&op);
+
+    if(op == 1){
+
+        criaArquivo("notaFiscal.txt",email);
+
+        getchar();
+    }else{
+        menuCliente(email);
+    }
+
+}
+
+
+void criaArquivo(char *nomeArq, char email[100]){
+
+    FILE *arq;
+
+    Cliente *cli;
+
+    cli = clienteByEmail(email);
+
+    int dia,mes,ano,i,qtdCompras = cli->quantCompras;
+    float total = 0.0;
+    struct tm *local;
+    time_t t;
+
+
+    t= time(NULL);
+    local=localtime(&t);
+
+    dia=local->tm_mday;
+    mes=local->tm_mon+1;
+    ano=local->tm_year+1900;
+
+    arq = fopen(nomeArq,"w");
+
+    if(arq == NULL){
+
+        printf("\nErro na abertura do arquivo.\n");
+
+        getchar();
+
+
+
+    }else{
+
+        fputs("----------NOTA FISCAL-----------\n\n",arq);
+        fprintf(arq,"Nome do comprador: %s\n\nData: %d/%d/%d\n\nEmpresa associada: %s\n\n",cli->nome,dia,mes,ano,cli->empresa);
+        fprintf(arq,"\n\nItens comprados:\n\n");
+
+        for(i = 0; i < qtdCompras; i++){
+            fprintf(arq,"\n\nID: %d   Nome: %s   Quantidade comprada: %d   Valor: R$ %.2f\n\n",cli->compras[i].idProduto, getNomeProdutoById(cli->compras[i].idProduto),cli->compras[i].quantidadeProduto, cli->compras[i].precoTotal);
+            total += cli->compras[i].precoTotal;
+            fprintf(arq,"\n\n");
+
+        }
+
+
+        fprintf(arq,"\n\nTotal:                                                   R$ %.2f\n\n",total);
+        printf("\n\nNota Fiscal gerada com sucesso.\n\n");
+        getchar();
+
+    }
+
+
+
+    fclose(arq);
+
+
+}
+
+void lerArquivo(){
+
+    FILE* arq;
+    char ch;
+
+	arq = fopen("notaFiscal.txt", "r");
+	if(arq == NULL)
+	    printf("Erro, nao foi possivel abrir o arquivo\n");
+	else
+	    while( (ch=fgetc(arq))!= EOF )
+            putchar(ch);
+
+    getchar();
+    getchar();
+    getchar();
+
+	fclose(arq);
+}
