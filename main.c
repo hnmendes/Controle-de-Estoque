@@ -120,6 +120,8 @@ void lerArquivo();
 
 int main(){
 
+    setlocale(LC_ALL, "Portuguese");
+
     adms[0]=(Admin){"admin","123"};
 
     produtos[0] = (Produto){1,"produto1","bebida",12.80,128,1};
@@ -224,8 +226,8 @@ void cadastroAdmin(){
 
         fflush(stdin);
         printf("\n\nO limite de cadastro de administradores foi excedido.");
-        getchar();
-        getchar();
+        system("pause");
+
 
     }else{
 
@@ -246,7 +248,7 @@ void cadastroAdmin(){
 
         printf("\n\nAdministrador cadastrado com sucesso.");
 
-        getchar();
+        system("pause");
     }
 
 
@@ -268,7 +270,7 @@ void loginAdmin(){
 
     char login[10],senha[10];
 
-    system("clear");
+    system("cls");
     printf("-----------LOGIN------------");
 
     printf("\n\nDigite o login do admin:\n\n");
@@ -287,9 +289,6 @@ void loginAdmin(){
     }else{
 
         printf("\n\n\nLogin ou senha incorretos, ou a conta de adm informada nao existe.\n\n");
-
-        getchar();
-        getchar();
 
         system("pause");
 
@@ -334,13 +333,13 @@ void menuAdmin(char login[10]){
 
     int op = 0;
 
-    system("clear");
+    system("cls");
 
     printf("\n\n");
 
-    getchar();
+    system("pause");
 
-    system("clear");
+    system("cls");
 
     printf("\n\n\n");
 
@@ -399,7 +398,7 @@ void menuAdmin(char login[10]){
             break;
 
         default:
-            system("clear");
+            system("cls");
             menuPadrao();
             break;
      }
@@ -415,18 +414,18 @@ void addProduto(){
 
     Produto produto;
 
-    system("clear");
+    system("cls");
 
     printf("--------------CADASTRO DE PRODUTO-------------------\n\n\n");
 
     printf("Digite um identificador numerico de produto: \n\n");
     scanf("%d",&produto.id);
-    getchar();
+    system("pause");
 
     while(checaIdProduto(produto.id) == 1){
         printf("\nIdentificador de produto já cadastrado, por favor insira outro:\n\n");
         scanf("%d",&produto.id);
-        getchar();
+        system("pause");
     }
 
     printf("\nDigite o nome do produto: \n\n");
@@ -455,7 +454,7 @@ void addProduto(){
 
     printf("\n\nProduto cadastrado com sucesso.");
 
-    getchar();
+    system("pause");
 
 }
 
@@ -503,7 +502,7 @@ void imprimirProdutos(){
 
     int i = 0, cont = 0, pagina = 1;
 
-    system("clear");
+    system("cls");
 
     printf("\n-----------Produtos-------------\n");
 
@@ -520,18 +519,17 @@ void imprimirProdutos(){
             cont++;
 
             if(cont == 15){
-                getchar();
                 printf("\n\nPagina [%d]\n",pagina);
                 cont = 0;
                 pagina++;
-                getchar();
-                system("clear");
+                system("pause");
+                system("cls");
             }
 
         }
     }
 
-    getchar();
+    system("pause");
 }
 
 void editProduto(){
@@ -643,7 +641,7 @@ void editQtdProduto(){
 
     int id = 0, qtdProduto = 0, i = 0;
 
-    system("clear");
+    system("cls");
 
     printf("\n---------EDITAR QUANTIDADE DO PRODUTO--------\n\n\n");
 
@@ -669,7 +667,7 @@ void editQtdProduto(){
 
             printf("\n\nProduto alterado com sucesso. A nova quantidade deste produto em estoque é de : %d", produtos[i].quantidade);
 
-            getchar();
+            system("pause");
 
         }else{
 
@@ -688,7 +686,7 @@ void removeProduto(){
     int i = 0, id = 0, op = 0;
     char nome[100], tipo[100];
 
-    system("clear");
+    system("cls");
 
     printf("\n---------REMOVER PRODUTO--------\n\n\n");
     printf("Se deseja remover produto pelo id digite [1], se desejar remover pelo nome[2]:\n\n");
@@ -705,19 +703,19 @@ void removeProduto(){
 
         if(removeProdutoById(id) == 1){
             printf("\n\nProduto removido com sucesso.\n");
-            getchar();
+            system("pause");
 
         }else{
 
             printf("\nErro na remoção do produto, por favor contate a administração.\n\n");
-            getchar();
+            system("pause");
 
         }
 
     }else if(op == 2){
         printf("\n\nDigite um nome válido:\n\n");
         scanf("%s",&nome);
-        //getchar();
+        //system("pause");
         fflush(stdin);
 
         while(checaNomeProduto(nome) != 1){
@@ -728,19 +726,18 @@ void removeProduto(){
 
         if(removeProdutoByNome(nome) == 1){
             printf("\n\nProduto removido com sucesso.\n");
-            getchar();
-            getchar();
+            system("pause");
+
         }else{
 
             printf("\nErro na remoção do produto, por favor contate a administração.\n\n");
 
-            getchar();getchar();
+            system("pause");
 
         }
     }else{
         printf("\n\nOpção inválida!!\n\n");
-        getchar();
-        getchar();
+        system("pause");
     }
 
 }
@@ -798,7 +795,7 @@ void cadastroCliente(){
 
     Cliente cliente;
 
-    system("clear");
+    system("cls");
 
     printf("\n\n---------CADASTRO DE CLIENTE---------\n\n");
 
@@ -823,7 +820,7 @@ void cadastroCliente(){
     clienteCadastradoQtd += 1;
 
     printf("\n\nCliente cadastrado com sucesso!\n\n");
-    getchar();
+    system("pause");
 
 }
 
@@ -832,7 +829,7 @@ void imprimirClientes(){
 
     int i = 0;
 
-    system("clear");
+    system("cls");
 
     printf("\n\nLista de Clientes cadastrados:\n\n\n\n");
 
@@ -870,7 +867,7 @@ void loginCliente(){
 
     char email[100],senha[100];
 
-    system("clear");
+    system("cls");
     printf("-----------LOGIN------------");
 
     printf("\n\nDigite o login do cliente:\n\n");
@@ -890,8 +887,7 @@ void loginCliente(){
 
         printf("\n\n\nLogin ou senha incorretos, ou a conta de cliente informada nao existe.\n\n");
 
-        getchar();
-        getchar();
+        system("pause");
 
         loginCliente();
 
@@ -921,13 +917,7 @@ void menuCliente(char email[100]){
 
     int op = 0;
 
-    system("clear");
-
-    printf("\n\n");
-
-    getchar();
-
-    system("clear");
+    system("cls");
 
     printf("\n\n\n");
 
@@ -975,7 +965,7 @@ void menuCliente(char email[100]){
             break;
 
         default:
-            system("clear");
+            system("cls");
             menuPadrao();
             break;
      }
@@ -1035,7 +1025,7 @@ void compraProduto(char email[100]){
 
     int id = 0,quantidade = 0, resposta = 0;
 
-    getchar();
+    system("cls");
 
     printf("\n\nDigite o id do produto que deseja comprar:\n\n");
     scanf("%d",&id);
@@ -1047,13 +1037,11 @@ void compraProduto(char email[100]){
 
     if(resposta == 1){
         printf("\n\nProduto comprado com sucesso.\n\n");
-        getchar();
+        system("pause");
     }else{
         printf("\n\nOcorreu um erro, contate os administradores.\n\n");
-        getchar();
+        system("pause");
     }
-
-    getchar();
 
 }
 
@@ -1073,8 +1061,7 @@ void impressaoTeste(char email[100]){
     }
 
 
-    getchar();
-    getchar();
+    system("pause");
 
 
 }
@@ -1090,7 +1077,7 @@ void finalizarCompra(char email[100]){
 
         criaArquivo("notaFiscal.txt",email);
 
-        getchar();
+        system("pause");
     }else{
         menuCliente(email);
     }
@@ -1125,7 +1112,7 @@ void criaArquivo(char *nomeArq, char email[100]){
 
         printf("\nErro na abertura do arquivo.\n");
 
-        getchar();
+        system("pause");
 
 
 
@@ -1145,7 +1132,7 @@ void criaArquivo(char *nomeArq, char email[100]){
 
         fprintf(arq,"\n\nTotal:                                                   R$ %.2f\n\n",total);
         printf("\n\nNota Fiscal gerada com sucesso.\n\n");
-        getchar();
+        system("pause");
 
     }
 
@@ -1160,6 +1147,7 @@ void lerArquivo(){
 
     FILE* arq;
     char ch;
+    int op;
 
 	arq = fopen("notaFiscal.txt", "r");
 	if(arq == NULL)
@@ -1168,9 +1156,14 @@ void lerArquivo(){
 	    while( (ch=fgetc(arq))!= EOF )
             putchar(ch);
 
-    getchar();
-    getchar();
-    getchar();
+    printf("\n\nVocê deseja imprimir a nota fiscal? (1 para Sim, 0 para não)\n\n");
+    scanf("%d",&op);
+
+    if(op == 1){
+        system("notepad /p notaFiscal.txt");
+    }
+
+    system("pause");
 
 	fclose(arq);
 }
