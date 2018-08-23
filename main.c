@@ -233,14 +233,17 @@ void cadastroAdmin(){
 
         printf("\n\nDigite o login do admin:\n\n");
         scanf("%s",&adm.usuario);
+        fflush(stdin);
 
         while(checaCadastroAdmin(adm.usuario) == 1){
             printf("\n\nO nome de usuário já existe, por favor digite outro:\n\n");
             scanf("%s",&adm.usuario);
+            fflush(stdin);
         }
 
         printf("\n\nDigite a senha do admin:\n\n");
         scanf("%s",&adm.senha);
+        fflush(stdin);
 
         adms[admCadastroQtd] = adm;
 
@@ -275,9 +278,11 @@ void loginAdmin(){
 
     printf("\n\nDigite o login do admin:\n\n");
     scanf("%s",&login);
+    fflush(stdin);
 
     printf("\n\nDigite a senha do admin:\n\n");
     scanf("%s",&senha);
+    fflush(stdin);
 
     printf("\n");
     printf("-----------------------------");
@@ -336,8 +341,6 @@ void menuAdmin(char login[10]){
     system("cls");
 
     printf("\n\n");
-
-    system("pause");
 
     system("cls");
 
@@ -420,31 +423,39 @@ void addProduto(){
 
     printf("Digite um identificador numerico de produto: \n\n");
     scanf("%d",&produto.id);
-    system("pause");
+    fflush(stdin);
 
     while(checaIdProduto(produto.id) == 1){
         printf("\nIdentificador de produto já cadastrado, por favor insira outro:\n\n");
         scanf("%d",&produto.id);
-        system("pause");
+        fflush(stdin);
     }
 
     printf("\nDigite o nome do produto: \n\n");
     fgets(produto.nome,100,stdin);
+    fflush(stdin);
+    fflush(stdin);
 
     while(checaNomeProduto(produto.nome) == 1){
         printf("\nNome de produto já cadastrado, por favor insira outro:\n\n");
         fgets(produto.nome,100,stdin);
+        fflush(stdin);
+        fflush(stdin);
     }
 
+    fflush(stdin);
     printf("\nDigite o tipo do produto: \n\n");
     fgets(produto.tipo,100,stdin);
+    fflush(stdin);
 
 
     printf("\nDigite o preço do produto: \n\n");
     scanf("%lf",&produto.preco);
+    fflush(stdin);
 
     printf("\nDigite a quantidade do produto: \n\n");
     scanf("%d",&produto.quantidade);
+    fflush(stdin);
 
     produto.ativo = 1;
 
@@ -500,7 +511,7 @@ char* getNomeProdutoById(int id){
 
 void imprimirProdutos(){
 
-    int i = 0, cont = 0, pagina = 1;
+    int i = 0, cont = 0, pagina = 1, op = 0;
 
     system("cls");
 
@@ -520,10 +531,16 @@ void imprimirProdutos(){
 
             if(cont == 15){
                 printf("\n\nPagina [%d]\n",pagina);
+                printf("\n\nDigite 1 para proxima página ou 0 para sair.");
+                scanf("%d",&op);
+                if(op == 0){
+                    break;
+                }
                 cont = 0;
                 pagina++;
                 system("pause");
                 system("cls");
+
             }
 
         }
@@ -545,24 +562,34 @@ void editProduto(){
     if(op == 1){
         printf("\n\nDigite o id do produto que deseja editar:\n\n");
         scanf("%d",&id);
+        fflush(stdin);
 
         while(checaIdProduto(id) != 1){
             printf("\n\nProduto não encontrado. Por favor, digite um id válido.");
             scanf("%d",&id);
+            fflush(stdin);
         }
 
         editPorId(id);
+        fflush(stdin);
 
     }else if(op == 2){
         printf("\n\nDigite o nome do produto que deseja editar:\n\n");
         fgets(nome,100,stdin);
+        fflush(stdin);
+        fflush(stdin);
 
         while(checaNomeProduto(nome)!= 1){
             printf("\n\nProduto não encontrado. Por favor, digite um id válido.");
             fgets(nome,100,stdin);
+            fflush(stdin);
+            fflush(stdin);
+
         }
 
         editPorNome(nome);
+        fflush(stdin);
+        fflush(stdin);
 
     }
 
@@ -580,24 +607,34 @@ void editPorId(int id){
 
             printf("\nDigite o nome do produto: \n\n");
             fgets(produtos[i].nome,100,stdin);
+            fflush(stdin);
+            fflush(stdin);
 
             while(checaNomeProduto(produtos[i].nome) == 1){
                 printf("\nNome de produto já cadastrado, por favor insira outro:\n\n");
                 fgets(produtos[i].nome,100,stdin);
+                fflush(stdin);
+                fflush(stdin);
             }
 
             printf("\nDigite o tipo do produto: \n\n");
             fgets(produtos[i].tipo,100,stdin);
+            fflush(stdin);
+            fflush(stdin);
 
             printf("\nDigite o preço do produto: \n\n");
             scanf("%lf",&produtos[i].preco);
+            fflush(stdin);
+            fflush(stdin);
 
             printf("\nDigite a quantidade do produto: \n\n");
             scanf("%d",&produtos[i].quantidade);
+            fflush(stdin);
+            fflush(stdin);
 
             printf("\n\nProduto editado com sucesso.\n\n");
 
-            system("read");
+
         }
     }
 
@@ -614,24 +651,34 @@ void editPorNome(char nome[100]){
 
             printf("\nDigite o nome do produto: \n\n");
             fgets(produtos[i].nome,100,stdin);
+            fflush(stdin);
+            fflush(stdin);
 
             while(checaNomeProduto(produtos[i].nome) == 1){
                 printf("\nNome de produto já cadastrado, por favor insira outro:\n\n");
                 fgets(produtos[i].nome,100,stdin);
+                fflush(stdin);
+                fflush(stdin);
             }
 
             printf("\nDigite o tipo do produto: \n\n");
             fgets(produtos[i].tipo,100,stdin);
+            fflush(stdin);
+            fflush(stdin);
 
             printf("\nDigite o preço do produto: \n\n");
             scanf("%lf",&produtos[i].preco);
+            fflush(stdin);
+            fflush(stdin);
 
             printf("\nDigite a quantidade do produto: \n\n");
             scanf("%d",&produtos[i].quantidade);
+            fflush(stdin);
+            fflush(stdin);
 
             printf("\n\nProduto editado com sucesso.\n\n");
 
-            system("read");
+            system("pause");
         }
     }
 
@@ -657,10 +704,14 @@ void editQtdProduto(){
 
             printf("\nProduto encontrado, sua quantidade é de %d digite\na quantidade que deseja editar:\n\n",produtos[i].quantidade);
             scanf("%d",&qtdProduto);
+            fflush(stdin);
+            fflush(stdin);
 
             while(qtdProduto < 0){
                 printf("\n\nPara adicionar uma quantidade, o valor deve ser positivo :\n\n");
                 scanf("%d",&qtdProduto);
+                fflush(stdin);
+                fflush(stdin);
             }
 
             produtos[i].quantidade = qtdProduto;
@@ -674,6 +725,8 @@ void editQtdProduto(){
             while(checaIdProduto(id) != 1){
                 printf("\nProduto não encontrado, digite um id válido:\n\n");
                 scanf("%d",&id);
+                fflush(stdin);
+                fflush(stdin);
             }
 
         }
@@ -691,6 +744,8 @@ void removeProduto(){
     printf("\n---------REMOVER PRODUTO--------\n\n\n");
     printf("Se deseja remover produto pelo id digite [1], se desejar remover pelo nome[2]:\n\n");
     scanf("%d",&op);
+    fflush(stdin);
+    fflush(stdin);
 
     if(op == 1){
         printf("\n\nDigite um id válido:\n\n");
@@ -715,7 +770,7 @@ void removeProduto(){
     }else if(op == 2){
         printf("\n\nDigite um nome válido:\n\n");
         scanf("%s",&nome);
-        //system("pause");
+        fflush(stdin);
         fflush(stdin);
 
         while(checaNomeProduto(nome) != 1){
@@ -801,15 +856,23 @@ void cadastroCliente(){
 
     printf("Digite o nome do cliente:\n\n");
     fgets(cliente.nome,100,stdin);
+    fflush(stdin);
+    fflush(stdin);
 
     printf("\n\nDigite o seu email:\n\n");
     fgets(cliente.email,100,stdin);
+    fflush(stdin);
+    fflush(stdin);
 
     printf("\n\nDigite o nome da empresa associada:\n\n");
     fgets(cliente.empresa,100,stdin);
+    fflush(stdin);
+    fflush(stdin);
 
     printf("\n\nDigite sua senha:\n\n");
     fgets(cliente.senha,100,stdin);
+    fflush(stdin);
+    fflush(stdin);
 
     cliente.ativo = 1;
 
@@ -872,9 +935,13 @@ void loginCliente(){
 
     printf("\n\nDigite o login do cliente:\n\n");
     scanf("%s",&email);
+    fflush(stdin);
+    fflush(stdin);
 
     printf("\n\nDigite a senha do cliente:\n\n");
     scanf("%s",&senha);
+    fflush(stdin);
+    fflush(stdin);
 
     printf("\n");
     printf("-----------------------------");
